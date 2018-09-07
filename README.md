@@ -4,10 +4,10 @@
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/AJAT-Request/proxy-server-james
+  - https://github.com/AJAT-Request/similarlistings
+  - https://github.com/AJAT-Request/photocarousel
+  - https://github.com/AJAT-Request/reviews
 
 ## Table of Contents
 
