@@ -6,3 +6,9 @@ it('should add', () => {
   const two = 2;
   expect(1 + 1).toEqual(two);
 });
+
+// it('should render', () => {
+  // const component = renderer.create(
+  //   <BookingBox></BookingBox>,
+  // )
+// })

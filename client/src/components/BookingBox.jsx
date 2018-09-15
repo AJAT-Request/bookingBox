@@ -3,6 +3,7 @@ import Reviews from './Reviews';
 import Dates from './Dates';
 import Guests from './Guests';
 import SumTotals from './SumTotals';
+import styles from '../styles/BookingBox.css';
 
 const React = require('react');
 const $ = require('jquery');
@@ -61,32 +62,33 @@ class BookingBox extends React.Component {
   }
 
   render() {
-    const { nightlyFee, serviceFee, cleaningFee, numReviews,
-      reviewRating, numGuests, daysBooking, render } = this.state;
+    const {
+      nightlyFee, serviceFee, cleaningFee, numReviews, reviewRating, numGuests, daysBooking, render,
+    } = this.state;
     if (!nightlyFee) {
       return <div>Could not find room!</div>;
     }
     return (
-      <div>
-        <NightlyFee price={nightlyFee} />
-        <Reviews rating={reviewRating} num={numReviews} />
-        <div>Make a styled div here to make a line</div>
-        <hr />
-        <Dates func={this.changeDays} />
-        <Guests numGuests={numGuests} />
-        <SumTotals
-          nightlyFee={nightlyFee}
-          serviceFee={serviceFee}
-          cleaningFee={cleaningFee}
-          days={daysBooking}
-          render={render}
-        />
-        <button type="submit" onClick={this.toggleTotals.bind(this)}>Render Totals!</button>
-        <button type="submit" onClick={this.getDates}>Get dates!</button>
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <NightlyFee price={nightlyFee} />
+          <Reviews rating={reviewRating} num={numReviews} />
+          <div className={styles.line} />
+          <Dates func={this.changeDays} />
+          <Guests numGuests={numGuests} />
+          <SumTotals
+            nightlyFee={nightlyFee}
+            serviceFee={serviceFee}
+            cleaningFee={cleaningFee}
+            days={daysBooking}
+            render={render}
+          />
+          <button type="submit" onClick={this.toggleTotals.bind(this)}>Render Totals!</button>
+          <button type="submit" onClick={this.getDates}>Get dates!</button>
+        </div>
       </div>
     );
   }
-
 }
 
 export default BookingBox;

@@ -1,0 +1,16 @@
+:local(.container) {
+  margin: 40px;
+  width: 376px;
+  border: 1px solid rgb(56, 50, 50);
+}
+
+:local(.content) {
+  margin: 20px;
+}
+
+:local(.line) {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: solid rgb(56, 50, 50);
+  border-width: 1px 0px 0px 0px;
+}
