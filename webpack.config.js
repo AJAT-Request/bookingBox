@@ -18,6 +18,11 @@ module.exports = {
           presets: ['@babel/preset-react', '@babel/preset-env'], // babel-preset-airbnb not working
         },
       },
+      {
+        test: /\.css$/,
+        // loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   resolve: {
