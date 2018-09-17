@@ -22,7 +22,7 @@ class BookingBox extends React.Component {
       render: false,
     };
 
-    this.changeDays = this.changeDays.bind(this);
+    this.setNumDays = this.setNumDays.bind(this);
   }
   // (listingName, nightlyFee, serviceFee, cleaningFee, numReviews,
   // reviewRating, numGuests, timesRecentlyViewed)
@@ -46,18 +46,18 @@ class BookingBox extends React.Component {
     });
   }
 
-  toggleTotals() {
-    const { render } = this.state;
-    this.setState({
-      render: !render,
-    });
-  }
-
-  changeDays(number) {
+  setNumDays(number) {
     // Use this function inside the calendar
     console.log('DAY CHANGED', number);
     this.setState({
       daysBooking: number,
+    });
+  }
+
+  toggleTotals() {
+    const { render } = this.state;
+    this.setState({
+      render: !render,
     });
   }
 
@@ -74,7 +74,7 @@ class BookingBox extends React.Component {
           <NightlyFee price={nightlyFee} />
           <Reviews rating={reviewRating} num={numReviews} />
           <div className={styles.line} />
-          <Dates func={this.changeDays} />
+          <Dates setNumDays={this.setNumDays} />
           <Guests numGuests={numGuests} />
           <SumTotals
             nightlyFee={nightlyFee}
