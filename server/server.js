@@ -20,8 +20,9 @@ app.get('/rooms/info', (req, res) => {
 });
 
 app.get('/rooms/dates', (req, res) => {
-  db.query(`SELECT * FROM dates WHERE listingId = ${currRoom} AND month = ${req.query.month}`, (err, result) => {
+  db.query(`SELECT * FROM dates WHERE listingId = ${currRoom} AND month = ${req.query.month} AND year = ${req.query.year}`, (err, result) => {
     if (err) throw err;
+    console.log(result);
     res.status(200).send(result);
   });
 });

@@ -20,13 +20,13 @@ class Dates extends React.Component {
   }
 
   render() {
-    const { func } = this.props;
+    const { setNumDays } = this.props;
     const { renderCalendar } = this.state;
     if (renderCalendar) {
       return (
         <div>
           <button type="submit" onClick={this.toggleCalendar.bind(this)}>Calendar!!</button>
-          <CalendarBox func={func} />
+          <CalendarBox setNumDays={setNumDays} />
         </div>
       );
     }
@@ -39,7 +39,7 @@ class Dates extends React.Component {
 }
 
 Dates.propTypes = {
-  func: PropTypes.func.isRequired,
+  setNumDays: PropTypes.func.isRequired,
 };
 
 export default Dates;
