@@ -30,6 +30,7 @@ class BookingBox extends React.Component {
   componentDidMount() {
     $.ajax({
       url: './info',
+      data: { roomId: window.location.pathname.slice(7) },
       success: (result) => {
         this.setState({
           nightlyFee: result[0].nightlyFee,
