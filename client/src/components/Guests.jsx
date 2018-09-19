@@ -5,9 +5,7 @@ function Guests(props) {
   const { numGuests } = props;
   return (
     <div>
-      Can have
-      {numGuests}
-       guests
+      {`Can have ${numGuests} guests for this booking`}
     </div>
   );
 }

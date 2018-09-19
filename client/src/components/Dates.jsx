@@ -1,4 +1,5 @@
 import CalendarBox from './calendar/CalendarBox';
+import styles from '../styles/Dates.css';
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -22,19 +23,40 @@ class Dates extends React.Component {
   render() {
     const { setNumDays } = this.props;
     const { renderCalendar } = this.state;
+    const calendarCreate = (
+      <div>
+        <div className={styles.title}>Dates</div>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <button
+              type="submit"
+              onClick={this.toggleCalendar.bind(this)}
+              className={styles.checkIn}
+            >
+              Check in
+            </button>
+            <span>{'>'}</span>
+            <button
+              type="submit"
+              onClick={this.toggleCalendar.bind(this)}
+              className={styles.checkOut}
+            >
+              Check out
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+
     if (renderCalendar) {
       return (
         <div>
-          <button type="submit" onClick={this.toggleCalendar.bind(this)}>Calendar!!</button>
+          {calendarCreate}
           <CalendarBox setNumDays={setNumDays} />
         </div>
       );
     }
-    return (
-      <div>
-        <button type="submit" onClick={this.toggleCalendar.bind(this)}>Calendar!!</button>
-      </div>
-    );
+    return (calendarCreate);
   }
 }
 

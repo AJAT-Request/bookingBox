@@ -1,0 +1,45 @@
+:local(.container) {
+  position: absolute;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+:local(.content) {
+  padding: 20px;
+}
+
+:local(.titleBox) {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+:local(.monthTitle) {
+  font-size: 18px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+:local(.prev) {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  background-color: white;
+  float: left;
+  width: 39px;
+}
+
+:local(.next) {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  background-color: white;
+  float: right;
+  width: 39px;
+}
+
+:local(.dayTitle) {
+  padding-top: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 11.9px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.7);
+}

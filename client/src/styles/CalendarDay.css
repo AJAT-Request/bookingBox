@@ -1,6 +1,7 @@
 :local(.container) {
-  border: 1px solid rgba(0, 0, 0, 0.658);
-  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgb(72, 72, 72);
+  padding: 11px;
   text-align: center;
   vertical-align: middle;
   font-weight: bold;

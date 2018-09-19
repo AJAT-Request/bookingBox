@@ -1,5 +1,6 @@
 import React from 'react';
 import Calendar from './Calendar';
+import styles from '../../styles/CalendarBox.css';
 // const React = require('react');
 const PropTypes = require('prop-types');
 const $ = require('jquery'); // Switch to axios at some point
@@ -9,18 +10,17 @@ class CalendarBox extends React.Component {
     super(props);
 
     this.state = {
-      dates: [],
-      currMonthStartIndex: null,
-      currMonthEndIndex: null,
-      currMonthDates: [],
+      datesInMonths: {},
       currMonth: new Date().getMonth(),
       currYear: new Date().getFullYear(),
-      // daysInCurrMonth: null,
       render: false,
-      // checkInDate: null,
+      // checkInDate: {
+      //   monthString: null,
+      //   index: null,
+      // },
       // checkOutDate: null,
       // currCalendar: null,
-      months: {
+      monthsInYear: {
         0: 'January',
         1: 'February',
         2: 'March',
@@ -42,19 +42,19 @@ class CalendarBox extends React.Component {
   }
 
   componentDidMount() {
-    // const { currMonth, currYear } = this.state;
-    // this.setDaysInMonth(currMonth, currYear);
-    // this.getDates(currMonth, currYear);
-    this.getDates();
+    const { currMonth, currYear } = this.state;
+    this.getDates(currMonth, currYear);
+    const nextDate = new Date(currYear, currMonth + 1);
+    this.getDates(nextDate.getMonth(), nextDate.getFullYear());
   }
 
-  getDates() {
-    const { currMonth, currYear } = this.state;
+  getDates(month, year) {
+    // const { monthsInYear } = this.state;
     $.ajax({
-      url: './dates',
-      data: { month: currMonth, year: currYear },
+      url: 'http://127.0.0.1:3003/rooms/dates',
+      data: { month, year },
       success: (result) => {
-        this.appendToDates(result);
+        this.addDates(result, month, year);
       },
       error: (error) => {
         console.error('ERROR IN AJAX GET:', error);
@@ -62,154 +62,130 @@ class CalendarBox extends React.Component {
     });
   }
 
-  // setDaysInMonth(month, year) {
-  //   const numDaysInMonth = new Date(year, month + 1, 0).getDate();
-  //   this.setState({
-  //     daysInCurrMonth: numDaysInMonth,
-  //   });
-  // }
-
   // setDate(index) {
   //   const placeholder = this;
   //   console.log('Index clicked:', index);
   // }
 
-  appendToDates(result) {
+  addDates(result, month, year) {
     const {
-      dates, currMonthStartIndex, currMonthEndIndex,
+      datesInMonths, monthsInYear, currMonth, currYear,
     } = this.state;
-    if (currMonthStartIndex === null) {
-      const datesToAdd = [];
-      const today = new Date();
-      result.forEach((date) => {
-        if (date.day > today.getDate()) {
-          datesToAdd.push(date);
-        }
-      });
+
+    const datesObj = {};
+    if (result) {
+      for (let i = 0; i < result.length; i += 1) {
+        datesObj[result[i].day] = result[i];
+      }
+    }
+
+    const monthString = monthsInYear[month] + year;
+    datesInMonths[monthString] = datesObj;
+    if (month === currMonth && year === currYear) {
       this.setState({
-        currMonthStartIndex: 0,
-        currMonthEndIndex: result.length - 1,
-        dates: datesToAdd,
-        currMonthDates: datesToAdd,
+        currMonthDates: datesObj,
+        datesInMonths,
         render: true,
       });
     } else {
-      const datesToAdd = [];
-      result.forEach((date) => {
-        datesToAdd.push(date);
-        dates.push(date);
-      });
       this.setState({
-        currMonthStartIndex: currMonthEndIndex + 1,
-        currMonthEndIndex: currMonthEndIndex + 1 + result.length,
-        dates,
-        currMonthDates: datesToAdd,
-        render: true,
+        datesInMonths,
       });
     }
   }
 
   nextMonth() {
-    const { currMonth, currYear } = this.state;
+    const {
+      monthsInYear, currMonth, currYear, datesInMonths,
+    } = this.state;
     const nextDate = new Date(currYear, currMonth + 1);
+    const nextMonthString = monthsInYear[nextDate.getMonth()] + nextDate.getFullYear();
+
     this.setState({
+      currMonthDates: datesInMonths[nextMonthString],
       currMonth: nextDate.getMonth(),
       currYear: nextDate.getFullYear(),
     }, () => {
-      const { dates, currMonthEndIndex } = this.state;
-      if (!dates[currMonthEndIndex + 1]) {
-        this.getDates();
-      } else {
-        const daysInCurrMonth = new Date(
-          nextDate.getFullYear(),
-          nextDate.getMonth() + 1,
-          0,
-        ).getDate();
-
-        if (!dates[currMonthEndIndex + daysInCurrMonth]) {
-          const newDates = [];
-          for (let i = currMonthEndIndex + 1; i < dates.length - 1; i += 1) {
-            newDates.push(dates[i]);
-          }
-          this.setState({
-            currMonthDates: newDates,
-            currMonthStartIndex: currMonthEndIndex + 1,
-            currMonthEndIndex: dates.length - 1,
-          });
-        } else {
-          const newDates = [];
-          for (let i = currMonthEndIndex + 1; i < currMonthEndIndex + daysInCurrMonth; i += 1) {
-            newDates.push(dates[i]);
-          }
-          this.setState({
-            currMonthDates: newDates,
-            currMonthStartIndex: currMonthEndIndex + 1,
-            currMonthEndIndex: currMonthEndIndex + daysInCurrMonth,
-          });
-        }
+      // Gets the next month if it wasn't already gotten
+      const monthAfter = new Date(nextDate.getFullYear(), nextDate.getMonth() + 1);
+      const monthAfterString = monthsInYear[monthAfter.getMonth()] + monthAfter.getFullYear();
+      if (datesInMonths[monthAfterString] === undefined) {
+        this.getDates(monthAfter.getMonth(), monthAfter.getFullYear());
       }
     });
   }
 
   prevMonth() {
-    const { currMonth, currYear } = this.state;
+    const {
+      monthsInYear, currMonth, currYear, datesInMonths,
+    } = this.state;
     const nextDate = new Date(currYear, currMonth - 1);
+    const nextMonthString = monthsInYear[nextDate.getMonth()] + nextDate.getFullYear();
+
     this.setState({
+      currMonthDates: datesInMonths[nextMonthString],
       currMonth: nextDate.getMonth(),
       currYear: nextDate.getFullYear(),
-    }, () => {
-      const { dates, currMonthStartIndex } = this.state;
-      const daysInCurrMonth = new Date(
-        nextDate.getFullYear(),
-        nextDate.getMonth() + 1,
-        0,
-      ).getDate();
-
-      if (!dates[currMonthStartIndex - daysInCurrMonth]) {
-        const newDates = [];
-        for (let i = 0; i < currMonthStartIndex - 1; i += 1) {
-          newDates.push(dates[i]);
-        }
-        this.setState({
-          currMonthDates: newDates,
-          currMonthStartIndex: 0,
-          currMonthEndIndex: currMonthStartIndex - 1,
-        });
-      } else {
-        const newDates = [];
-        for (let i = currMonthStartIndex - daysInCurrMonth; i < currMonthStartIndex - 1; i += 1) {
-          newDates.push(dates[i]);
-        }
-        this.setState({
-          currMonthDates: newDates,
-          currMonthStartIndex: currMonthStartIndex - daysInCurrMonth,
-          currMonthEndIndex: currMonthStartIndex - 1,
-        });
-      }
     });
   }
 
   render() {
     const {
-      render, currMonthDates, currMonth, currYear, months,
+      render, currMonthDates, currMonth, currYear, monthsInYear,
     } = this.state;
+
+    const dayTitles = [
+      'Su',
+      'Mo',
+      'Tu',
+      'We',
+      'Th',
+      'Fr',
+      'Sa',
+    ];
 
     if (render) {
       return (
-        <div>
-          <button type="submit" onClick={this.prevMonth}>Previous month</button>
-          <button type="submit" onClick={this.nextMonth}>Next month</button>
-          <Calendar
-            dates={currMonthDates}
-            month={currMonth}
-            year={currYear}
-            months={months}
-            setDate={this.setDate}
-          />
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <div className={styles.titleBox}>
+              <button
+                type="submit"
+                onClick={this.prevMonth}
+                className={styles.prev}
+              >
+                {'<'}
+              </button>
+              <span className={styles.monthTitle}>
+                {`${monthsInYear[currMonth]} ${currYear}`}
+              </span>
+              <button
+                type="submit"
+                onClick={this.nextMonth}
+                className={styles.next}
+              >
+                {'>'}
+              </button>
+            </div>
+            {/* <tbody> */}
+            <table className={styles.dayTitle}>
+              <tr>
+                {dayTitles.map(day => <td>{day}</td>)}
+              </tr>
+            </table>
+            {/* </tbody> */}
+            <Calendar
+              dates={currMonthDates}
+              month={currMonth}
+              year={currYear}
+              monthsInYear={monthsInYear}
+              setDate={this.setDate}
+            />
+          </div>
         </div>
       );
     }
-    return <div>Could not find dates!</div>;
+    return null;
   }
 }
 

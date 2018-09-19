@@ -30,7 +30,7 @@ class BookingBox extends React.Component {
 
   componentDidMount() {
     $.ajax({
-      url: './info',
+      url: 'http://127.0.0.1:3003/rooms/info',
       data: { roomId: window.location.pathname.slice(7) },
       success: (result) => {
         this.setState({
@@ -43,7 +43,7 @@ class BookingBox extends React.Component {
         });
       },
       error: (error) => {
-        console.error('ERROR IN AJAX GET:', error);
+        console.error('ERROR IN AJAX GET: ', error);
       },
     });
   }
@@ -77,6 +77,7 @@ class BookingBox extends React.Component {
           <Reviews rating={reviewRating} num={numReviews} />
           <div className={styles.line} />
           <Dates setNumDays={this.setNumDays} />
+          <div className={styles.line} />
           <Guests numGuests={numGuests} />
           <SumTotals
             nightlyFee={nightlyFee}
@@ -86,8 +87,8 @@ class BookingBox extends React.Component {
             render={render}
           />
           <BookButton />
+          <div className={styles.line} />
           <button type="submit" onClick={this.toggleTotals.bind(this)}>Render Totals!</button>
-          <button type="submit" onClick={this.getDates}>Get dates!</button>
         </div>
       </div>
     );

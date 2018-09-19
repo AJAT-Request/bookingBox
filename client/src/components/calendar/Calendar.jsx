@@ -18,16 +18,19 @@ class Calendar extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { dates } = this.props;
-    if (dates !== prevProps.dates) {
+    const { month } = this.props;
+    if (month !== prevProps.month) {
       this.formatWeeks();
     }
   }
 
   formatWeeks() {
     const {
-      dates, month, year,
+      month, year,
     } = this.props;
+    // get days in current month
+    const daysInCurrMonth = new Date(year, month + 1, 0).getDate();
+    console.log('DAYS IN CURR MONTH:', daysInCurrMonth);
     const formattedWeeks = [];
     const monthStart = new Date(year, month);
     let currWeek = [];
@@ -36,32 +39,52 @@ class Calendar extends React.Component {
     for (let i = 0; i < monthStart.getDay(); i += 1) {
       currWeek.push(false);
     }
-    if (dates.length) {
-      for (let i = 1; i < dates[0].day; i += 1) {
-        currWeek.push(this.makeUnavailableDay(i));
-        if (currWeek.length === 7) {
-          formattedWeeks.push(currWeek);
-          currWeek = [];
-        }
+    for (let i = 1; i <= daysInCurrMonth; i += 1) {
+      currWeek.push(this.makeDay(i));
+      if (currWeek.length === 7) {
+        formattedWeeks.push(currWeek);
+        currWeek = [];
       }
-      for (let i = 0; i < dates.length; i += 1) {
-        currWeek.push(dates[i]);
-        if (currWeek.length === 7) {
-          formattedWeeks.push(currWeek);
-          currWeek = [];
-        }
-      }
-      formattedWeeks.push(currWeek);
     }
+    while (currWeek.length < 7) {
+      currWeek.push(false);
+    }
+    formattedWeeks.push(currWeek);
+    // if (dates.length) {
+    //   for (let i = 1; i < dates[0].day; i += 1) {
+    //     currWeek.push(this.makeUnavailableDay(i));
+    //     if (currWeek.length === 7) {
+    //       formattedWeeks.push(currWeek);
+    //       currWeek = [];
+    //     }
+    //   }
+    //   for (let i = 0; i < dates.length; i += 1) {
+    //     currWeek.push(dates[i]);
+    //     if (currWeek.length === 7) {
+    //       formattedWeeks.push(currWeek);
+    //       currWeek = [];
+    //     }
+    //   }
+    //   formattedWeeks.push(currWeek);
+    // }
+    console.log('FORMATTED WEEKS', formattedWeeks);
     this.setState({
       weeks: formattedWeeks,
     });
   }
 
-  makeUnavailableDay(day) {
-    const { month, year } = this.props;
+  makeDay(day) {
+    const { dates, month, year } = this.props;
+    let available = 0;
+    if (dates) {
+      if (dates[day]) {
+        if (dates[day].available) {
+          available = 1;
+        }
+      }
+    }
     return {
-      available: 0,
+      available,
       day,
       month,
       year,
@@ -74,7 +97,7 @@ class Calendar extends React.Component {
     return (
       <table className={styles.table}>
         <tbody>
-          {weeks.map(week => <CalendarWeek week={week} />)}
+          {weeks.map((week, index) => <CalendarWeek key={index} week={week} />)}
         </tbody>
       </table>
     );
