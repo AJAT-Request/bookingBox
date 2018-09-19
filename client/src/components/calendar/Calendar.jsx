@@ -1,4 +1,5 @@
 import CalendarWeek from './CalendarWeek';
+import styles from '../../styles/Calendar.css';
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -71,7 +72,7 @@ class Calendar extends React.Component {
     const { weeks } = this.state;
     // const { func } = this.props;
     return (
-      <table>
+      <table className={styles.table}>
         <tbody>
           {weeks.map(week => <CalendarWeek week={week} />)}
         </tbody>

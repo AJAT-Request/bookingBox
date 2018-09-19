@@ -1,3 +1,5 @@
+import styles from '../styles/NightlyFee.css';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 
@@ -5,8 +7,11 @@ function NightlyFee(props) {
   const { price } = props;
   return (
     <div>
-      {price}
-       per night
+      <strong className={styles.price}>
+        $
+        {price}
+      </strong>
+      <span className={styles.night}>per night</span>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import Reviews from './Reviews';
 import Dates from './Dates';
 import Guests from './Guests';
 import SumTotals from './SumTotals';
+import BookButton from './BookButton';
 import styles from '../styles/BookingBox.css';
 
 const React = require('react');
@@ -84,6 +85,7 @@ class BookingBox extends React.Component {
             days={daysBooking}
             render={render}
           />
+          <BookButton />
           <button type="submit" onClick={this.toggleTotals.bind(this)}>Render Totals!</button>
           <button type="submit" onClick={this.getDates}>Get dates!</button>
         </div>

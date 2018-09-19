@@ -1,4 +1,4 @@
-import styles from '../styles/BookingBox.css';
+import styles from '../../styles/CalendarDay.css';
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -6,7 +6,10 @@ const PropTypes = require('prop-types');
 function CalendarDay(props) {
   const { date } = props;
   if (date) {
-    return <td className={styles.container}>{date.day}</td>;
+    if (date.available) {
+      return <td className={[styles.container, styles.available].join(' ')}>{date.day}</td>;
+    }
+    return <td className={[styles.container, styles.unavailable].join(' ')}>{date.day}</td>;
   }
   return (
     <td />
