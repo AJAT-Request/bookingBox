@@ -5,10 +5,15 @@ const path = require('path');
 const db = require('../database/index.js');
 
 const app = express();
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3003;
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 let currRoom = null;
 
@@ -23,7 +28,6 @@ app.get('/rooms/info', (req, res) => {
 app.get('/rooms/dates', (req, res) => {
   db.query(`SELECT * FROM dates WHERE listingId = ${currRoom} AND month = ${req.query.month} AND year = ${req.query.year}`, (err, result) => {
     if (err) throw err;
-    console.log(result);
     res.status(200).send(result);
   });
 });

@@ -1,4 +1,4 @@
-import CalendarBox from './CalendarBox';
+import CalendarBox from './calendar/CalendarBox';
 
 const React = require('react');
 const PropTypes = require('prop-types');
