@@ -3,7 +3,7 @@ import Calendar from './Calendar';
 import styles from '../../styles/CalendarBox.css';
 // const React = require('react');
 const PropTypes = require('prop-types');
-const $ = require('jquery'); // Switch to axios at some point
+const axios = require('axios');
 
 class CalendarBox extends React.Component {
   constructor(props) {
@@ -49,16 +49,15 @@ class CalendarBox extends React.Component {
   }
 
   getDates(month, year) {
-    // const { monthsInYear } = this.state;
-    $.ajax({
-      url: 'http://127.0.0.1:3003/rooms/dates',
-      data: { month, year },
-      success: (result) => {
-        this.addDates(result, month, year);
+    axios.get('/bookingBox/dates', {
+      params: {
+        month,
+        year,
       },
-      error: (error) => {
-        console.error('ERROR IN AJAX GET:', error);
-      },
+    }).then((response) => {
+      this.addDates(response.data, month, year);
+    }).catch((error) => {
+      console.log('ERROR IN AXIOS GET: ', error);
     });
   }
 
@@ -167,13 +166,13 @@ class CalendarBox extends React.Component {
                 {'>'}
               </button>
             </div>
-            {/* <tbody> */}
             <table className={styles.dayTitle}>
-              <tr>
-                {dayTitles.map(day => <td>{day}</td>)}
-              </tr>
+              <tbody>
+                <tr>
+                  {dayTitles.map(day => <td key={day}>{day}</td>)}
+                </tr>
+              </tbody>
             </table>
-            {/* </tbody> */}
             <Calendar
               dates={currMonthDates}
               month={currMonth}

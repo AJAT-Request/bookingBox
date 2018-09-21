@@ -9,11 +9,14 @@
   },
   "scripts": {
     "test": "jest",
+    "coverage": "jest --coverage",
     "start": "nodemon server/server.js",
     "webpack": "webpack -d --watch",
-    "seed": "node ./database/seedDatabase.js"
+    "seed": "node ./database/seedDatabase.js",
+    "grunt": "grunt s3"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-jest": "^23.6.0",
     "body-parser": "^1.18.3",
     "css-loader": "^1.0.0",
@@ -44,6 +47,9 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.0",
+    "grunt": "^1.0.3",
+    "grunt-cli": "^1.3.1",
+    "grunt-s3": "^0.2.0-alpha.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
     "webpack": "^4.18.0",

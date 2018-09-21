@@ -17,7 +17,7 @@ function Reviews(props) {
         <img
           key={key}
           className={styles.star}
-          src="https://s3.us-east-2.amazonaws.com/booking-box-pictures/star.png"
+          src="https://s3-us-west-1.amazonaws.com/booking-box/star.png"
           alt="*"
         />
       ))}

@@ -5,7 +5,6 @@ const PropTypes = require('prop-types');
 
 function CalendarWeek(props) {
   const { week } = props;
-  console.log('CURR WEEK', week);
   return (
     <tr>
       {week.map((date, index) => <CalendarDay key={index} date={date} />)}

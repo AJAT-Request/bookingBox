@@ -30,7 +30,6 @@ class Calendar extends React.Component {
     } = this.props;
     // get days in current month
     const daysInCurrMonth = new Date(year, month + 1, 0).getDate();
-    console.log('DAYS IN CURR MONTH:', daysInCurrMonth);
     const formattedWeeks = [];
     const monthStart = new Date(year, month);
     let currWeek = [];
@@ -50,24 +49,7 @@ class Calendar extends React.Component {
       currWeek.push(false);
     }
     formattedWeeks.push(currWeek);
-    // if (dates.length) {
-    //   for (let i = 1; i < dates[0].day; i += 1) {
-    //     currWeek.push(this.makeUnavailableDay(i));
-    //     if (currWeek.length === 7) {
-    //       formattedWeeks.push(currWeek);
-    //       currWeek = [];
-    //     }
-    //   }
-    //   for (let i = 0; i < dates.length; i += 1) {
-    //     currWeek.push(dates[i]);
-    //     if (currWeek.length === 7) {
-    //       formattedWeeks.push(currWeek);
-    //       currWeek = [];
-    //     }
-    //   }
-    //   formattedWeeks.push(currWeek);
-    // }
-    console.log('FORMATTED WEEKS', formattedWeeks);
+
     this.setState({
       weeks: formattedWeeks,
     });
@@ -105,10 +87,14 @@ class Calendar extends React.Component {
 }
 
 Calendar.propTypes = {
-  dates: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dates: PropTypes.shape({}),
   month: PropTypes.number.isRequired,
   year: PropTypes.number.isRequired,
   // setDate: PropTypes.func.isRequired,
+};
+
+Calendar.defaultProps = {
+  dates: undefined,
 };
 
 export default Calendar;
