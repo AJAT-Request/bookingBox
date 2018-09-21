@@ -7,7 +7,7 @@ import BookButton from './BookButton';
 import styles from '../styles/BookingBox.css';
 
 const React = require('react');
-const $ = require('jquery');
+const axios = require('axios');
 
 class BookingBox extends React.Component {
   constructor(props) {
@@ -29,22 +29,22 @@ class BookingBox extends React.Component {
   // reviewRating, numGuests, timesRecentlyViewed)
 
   componentDidMount() {
-    $.ajax({
-      url: 'http://127.0.0.1:3003/rooms/info',
-      data: { roomId: window.location.pathname.slice(7) },
-      success: (result) => {
-        this.setState({
-          nightlyFee: result[0].nightlyFee,
-          serviceFee: result[0].serviceFee,
-          cleaningFee: result[0].cleaningFee,
-          numReviews: result[0].numReviews,
-          reviewRating: result[0].reviewRating,
-          numGuests: result[0].numGuests,
-        });
+    axios.get('/bookingBox/info', {
+      params: {
+        roomId: window.location.pathname.slice(7),
       },
-      error: (error) => {
-        console.error('ERROR IN AJAX GET: ', error);
-      },
+    }).then((response) => {
+      const result = response.data;
+      this.setState({
+        nightlyFee: result[0].nightlyFee,
+        serviceFee: result[0].serviceFee,
+        cleaningFee: result[0].cleaningFee,
+        numReviews: result[0].numReviews,
+        reviewRating: result[0].reviewRating,
+        numGuests: result[0].numGuests,
+      });
+    }).catch((error) => {
+      console.log('ERROR IN AXIOS GET: ', error);
     });
   }
 

@@ -5,7 +5,6 @@ const PropTypes = require('prop-types');
 
 function CalendarDay(props) {
   const { date } = props;
-  console.log('DATE', date);
   if (date) {
     if (date.available) {
       return <td className={[styles.container, styles.available].join(' ')}>{date.day}</td>;

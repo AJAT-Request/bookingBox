@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 
 let currRoom = null;
 
-app.get('/rooms/info', (req, res) => {
+app.get('/bookingBox/info', (req, res) => {
   currRoom = Number(req.query.roomId) + 1;
   db.query(`SELECT * FROM listing WHERE listingId = ${currRoom}`, (err, result) => {
     if (err) throw err;
@@ -25,7 +25,7 @@ app.get('/rooms/info', (req, res) => {
   });
 });
 
-app.get('/rooms/dates', (req, res) => {
+app.get('/bookingBox/dates', (req, res) => {
   db.query(`SELECT * FROM dates WHERE listingId = ${currRoom} AND month = ${req.query.month} AND year = ${req.query.year}`, (err, result) => {
     if (err) throw err;
     res.status(200).send(result);
