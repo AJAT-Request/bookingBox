@@ -20,10 +20,10 @@ jest.mock('axios', () => {
   };
 });
 
-it('should add', () => {
-  const two = 2;
-  expect(1 + 1).toEqual(two);
-});
+// it('should add', () => {
+//   const two = 2;
+//   expect(1 + 1).toEqual(two);
+// });
 
 describe('BookingBox', () => {
   it('renders correctly', () => {
