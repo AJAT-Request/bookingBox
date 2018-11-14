@@ -10,7 +10,7 @@
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
-    "start": "nodemon server/server.js",
+    "start": "node server/server.js",
     "webpack": "webpack -d --watch",
     "seed": "node ./database/seedDatabase.js",
     "grunt": "grunt s3"
