@@ -9,24 +9,15 @@
   - https://github.com/AJAT-Request/photocarousel
   - https://github.com/AJAT-Request/reviews
 
-## Table of Contents
-
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
-
 ## Usage
 
-> Some usage instructions
+> 1. Install dependencies (See section below)
+> 2. Run 'npm run webpack' to transpile .jsx files.
+> 3. Run 'npm start' and navigate to localhost:3003 in your browser.
 
 ## Requirements
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
-
 - Node 6.13.0
-- etc
-
-## Development
 
 ### Installing Dependencies
 
