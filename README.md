@@ -1,6 +1,6 @@
-# Project Name
+# Beautiful Booking Box
 
-> Project description
+> This is a front-end recreation of the booking box component on Airbnb.com, designed to maintain all original functionality and mimic the style from the original component.
 
 ## Related Projects
 
